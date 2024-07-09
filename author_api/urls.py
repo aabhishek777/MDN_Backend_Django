@@ -18,7 +18,7 @@ schema_view = get_schema_view(
     ),
     
     public=True,
-    permission_classes=(permissions.AllowAny)
+    permission_classes=[permissions.AllowAny]
     
 )
 
@@ -28,6 +28,6 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
 ]
 
-admin.site.site_header= "Author API Header Admin Portal"
+admin.site.site_header= "Author API Admin Portal"
 admin.site.site_title= "Author API Admin Portal"
 admin.site.index_title= "Welcome to Authors API"
