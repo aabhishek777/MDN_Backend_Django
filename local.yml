@@ -7,9 +7,9 @@ services:
       dockerfile: ./docker/local/django/Dockerfile
     volumes:
       - .:/app:z
-      - static_volumes:/app/staticfiles
-      - media_volumes:/app/mediafiles
-    ports:
+      - static_volumes:/app/staticFiles
+      - media_volumes:/app/mediaFiles
+    expose:
       - "8000:8000"
     env_file:
       - ./.envs/.local/.django
@@ -38,6 +38,21 @@ services:
     container_name: mailhog
     ports:
       - "8025:8025"
+    networks:
+      - authors-api
+
+  nginx:
+    restart: always
+    depends_on:
+      - api
+    volumes:
+      - static_volumes:/app/staticFiles
+      - media_volumes:/app/mediaFiles
+    build:
+      context: ./docker/local/nginx/
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
     networks:
       - authors-api
 
