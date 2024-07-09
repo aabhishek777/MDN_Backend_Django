@@ -12,7 +12,7 @@ class CustomUserManager(BaseUserManager):
         except ValidationError:
             raise ValueError(_("You must provide an email."))
     
-    def create_user(self, first_name, last_name, email, password, **extra_fileds):
+    def create_user(self, first_name, last_name, email, password, **extra_fields):
         if not first_name:
             raise ValueError(_("first name can not be empty"))
         if not last_name:
@@ -25,12 +25,12 @@ class CustomUserManager(BaseUserManager):
         
         user=self.model(
             first_name=first_name,last_name=last_name,email=email,
-            **extra_fileds
+            **extra_fields
         )
         user.set_password(password)
         
-        extra_fileds.setdefault("is_staff",False)
-        extra_fileds.setdefault("is_superuser",False)
+        extra_fields.setdefault("is_staff",False)
+        extra_fields.setdefault("is_superuser",False)
         
         
         user.save(using=self._db)
@@ -58,7 +58,7 @@ class CustomUserManager(BaseUserManager):
         else:
             raise ValidationError(_("Email can not be empty"))
         
-        user= self.create_user(first_name, last_name, email, password, **extra_fileds)
+        user= self.create_user(first_name, last_name, email, password, **extra_fields)
         
         user.save(using=self._db)
         

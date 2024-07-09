@@ -1,5 +1,8 @@
-POSTGRES_HOST=postgres
-POSTGRES_PORT=5432
-POSTGRES_DB=authors-live
+
+
 POSTGRES_USER=abhishek
 POSTGRES_PASSWORD=Abhishek123
+POSTGRES_DB=authors-live
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+DATABASE_URL=postgres://abhishek:Abhishek123@postgres:5432/authors-live

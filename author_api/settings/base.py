@@ -1,18 +1,24 @@
-
+import os
 from pathlib import Path
 import environ
 
-env= environ.Env()
+# Initialize environment variables
+env = environ.Env()
 
+# Define the root directory
 ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 
-print(ROOT_DIR)
+# Load environment variables from the .env files
+environ.Env.read_env(os.path.join(ROOT_DIR, '.envs', '.local', '.django'))
+environ.Env.read_env(os.path.join(ROOT_DIR, '.envs', '.local', '.postgres'))
 
+# Directory for core apps
+APP_DIR = ROOT_DIR / "core_apps"
 
-APP_DIR= ROOT_DIR/"core_apps"
+# Debug setting
+DEBUG = env.bool("DJANGO_DEBUG", False)
 
-DEBUG= env.bool("DJANGOD_DEBUG",False)
-
+# Installed apps
 DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -20,25 +26,25 @@ DJANGO_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.sites"
+    "django.contrib.sites",
 ]
 
-THIRD_PARTY_APPS=[
+THIRD_PARTY_APPS = [
     "rest_framework",
     "django_filters",
     "django_countries",
     "phonenumber_field",
     "drf_yasg",
-    "corsheaders"
+    "corsheaders",
 ]
 
-LOCAL_APPS= [
+LOCAL_APPS = [
     "core_apps.profiles",
     "core_apps.common",
     "core_apps.users",
 ]
 
-INSTALLED_APPS= DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -69,23 +75,14 @@ TEMPLATES = [
     },
 ]
 
-
 WSGI_APPLICATION = "author_api.wsgi.application"
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": "mydb",
-#     }
-# }
-
-DATABASES= {
-    "default":env.db("DATABASE_URL")
+# Database configuration
+DATABASES = {
+    "default": env.db("DATABASE_URL")
 }
 
-
-
-
+# Password hashers
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.Argon2PasswordHasher",
     "django.contrib.auth.hashers.PBKDF2PasswordHasher",
@@ -94,6 +91,7 @@ PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.ScryptPasswordHasher",
 ]
 
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -109,46 +107,49 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Localization settings
 LANGUAGE_CODE = "en-us"
-
 TIME_ZONE = "UTC"
-
 USE_I18N = True
-
 USE_TZ = True
 
-SITE_ID=1
+# Site ID
+SITE_ID = 1
 
-ADMIN_URL="supersecret/"
+# Admin URL
+ADMIN_URL = "supersecret/"
 
+# Static files settings
 STATIC_URL = "staticFiles/"
+STATIC_ROOT = str(ROOT_DIR / "staticFiles")
 
-STATIC_ROOT= str(ROOT_DIR/"staticFiles")
-
+# Media files settings
 MEDIA_URL = "mediaFiles/"
+MEDIA_ROOT = str(ROOT_DIR / "mediaFiles")
 
-MEDIA_ROOT= str(ROOT_DIR/"medialFiles")
-
+# Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CORES_URLS_REGEX= r"^api/.*$"
+# CORS URLs regex
+CORES_URLS_REGEX = r"^api/.*$"
 
+# Custom user model
 AUTH_USER_MODEL = "users.User"
 
-LOGGING={
-    "version":1,
-    "disable_existing_logger":False,
+# Logging configuration
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
     "formatters": {
-         "verbose":{
-            "format":"%(levelname)s %(name)-12s %(asctime)s %(module)s "
-            "%(process)d %(thread)d %(messages)s"
+        "verbose": {
+            "format": "%(levelname)s %(name)-12s %(asctime)s %(module)s %(process)d %(thread)d %(message)s"
         }
     },
-     "handlers": {
+    "handlers": {
         "console": {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
-            "formatter": "verbose"
+            "formatter": "verbose",
         }
     },
     "root": {
