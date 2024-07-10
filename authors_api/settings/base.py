@@ -36,6 +36,7 @@ THIRD_PARTY_APPS = [
     "phonenumber_field",
     "drf_yasg",
     "corsheaders",
+    "djcelery_email"
 ]
 
 LOCAL_APPS = [
@@ -57,7 +58,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "author_api.urls"
+ROOT_URLCONF = "authors_api.urls"
 
 TEMPLATES = [
     {
@@ -75,7 +76,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "author_api.wsgi.application"
+WSGI_APPLICATION = "authors_api.wsgi.application"
 
 # Database configuration
 DATABASES = {
@@ -109,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Localization settings
 LANGUAGE_CODE = "en-us"
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Calcutta"
 USE_I18N = True
 USE_TZ = True
 
@@ -135,6 +136,20 @@ CORES_URLS_REGEX = r"^api/.*$"
 
 # Custom user model
 AUTH_USER_MODEL = "users.User"
+
+# celery configuration to perform asynchronous tasks like mailing etc
+CELERY_BROKER_URL = env("CELERY_BROKER")
+CELERY_BROKER_BACKEND = CELERY_BROKER_URL
+# we can pass the content type here 
+CELERY_ACCEPT_CONTENT= ['json',]
+CELERY_TASK_SERIALIZER= "json"
+CELERY_RESULT_SERIALIZER= "json"
+CELERY_RESULT_BACKEND_MAX_RETRIES = 10
+CELERY_TASK_SEND_SENT_EVENT = True
+
+if USE_TZ:
+    CELERY_TIMEZONE= TIME_ZONE
+
 
 # Logging configuration
 LOGGING = {

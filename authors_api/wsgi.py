@@ -1,5 +1,5 @@
 """
-WSGI config for author_api project.
+WSGI config for authors_api project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 #  TODO change in production
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "author_api.settings.local")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "authors_api.settings.local")
 
 application = get_wsgi_application()

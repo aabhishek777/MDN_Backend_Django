@@ -1,8 +1,12 @@
 
-
 POSTGRES_USER=abhishek
 POSTGRES_PASSWORD=Abhishek123
 POSTGRES_DB=authors-live
 POSTGRES_HOST=postgres
 POSTGRES_PORT=5432
 DATABASE_URL=postgres://abhishek:Abhishek123@postgres:5432/authors-live
+CELERY_BROKER=redis://redis:6379/0
+DOMAIN=localhost:8080
+EMAIL_PORT=1025
+CELERY_FLOWER_USER=Admin
+CELERY_FLOWER_PASSWORD=Abhishek@123
