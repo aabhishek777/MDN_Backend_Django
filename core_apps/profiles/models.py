@@ -21,7 +21,7 @@ class Profiles(TimeStampedModel):
         FEMALE= "F", _("Female")
         OTHERS= "O", _("Other")
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
-    phone_number= PhoneNumberField(verbose_name=_("Phone Numeber"), max_length=30, default="+91 1234567899")
+    phone_number= PhoneNumberField(verbose_name=_("Phone Number"), max_length=30, default="+91 1234567899")
     about_me= models.TextField(verbose_name=_("About me"), default="I am ...")
     gender= models.CharField(verbose_name=_("Gender"),choices=Gender.choices, default=Gender.OTHERS, max_length=20)
     country= CountryField(verbose_name=_("Country Name"), default="IN",null=False)
