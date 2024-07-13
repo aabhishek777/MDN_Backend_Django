@@ -36,7 +36,12 @@ THIRD_PARTY_APPS = [
     "phonenumber_field",
     "drf_yasg",
     "corsheaders",
-    "djcelery_email"
+    "djcelery_email",
+    "allauth",
+    "allauth.account"
+    "allauth.socialaccount",
+    "dj_rest_auth",
+    "dj_rest_auth.registration"
 ]
 
 LOCAL_APPS = [
