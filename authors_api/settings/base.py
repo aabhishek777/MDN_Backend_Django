@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from datetime import timedelta
 import environ
 
 # Initialize environment variables
@@ -38,10 +39,11 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "djcelery_email",
     "allauth",
-    "allauth.account"
+    "allauth.account",
     "allauth.socialaccount",
     "dj_rest_auth",
-    "dj_rest_auth.registration"
+    "dj_rest_auth.registration",
+    "rest_framework.authtoken"
 ]
 
 LOCAL_APPS = [
@@ -155,6 +157,28 @@ CELERY_TASK_SEND_SENT_EVENT = True
 if USE_TZ:
     CELERY_TIMEZONE= TIME_ZONE
 
+
+REST_FRAMEWORK = {
+        "DEFAULT_AUTHENTICATION_CLASSES": [
+                "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
+        ],
+
+        "DEFAULT_PERMISSION_CLASSES": [
+                "rest_framework.permissions.IsAuthenticated",
+        ],
+        "DEFAULT_FILTER_BACKENDS": [
+                "django_filters.rest_framework.DjangoFilterBackend",
+                ]
+}
+
+SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES":("Bearer",),
+    "ACCESS_TOKEN_LIFETIME":timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME":timedelta(days=5),
+    "ROTATE_REFRESH_TOKEN":True,
+    "SIGNING_KEY":env.get_value("SIGNING_KEY")
+    
+}
 
 # Logging configuration
 LOGGING = {
