@@ -26,6 +26,13 @@ class UserSerializer(serializers.ModelSerializer):
                     representation["admin"] = True
                 return representation
             
+
+
+
+
+
+
+
 class CustomRegisterSerializer(serializers.ModelSerializer):
             username= None
             first_name= serializers.CharField(required=True)
@@ -34,8 +41,12 @@ class CustomRegisterSerializer(serializers.ModelSerializer):
             password1= serializers.CharField(write_only=True)
             password2= serializers.CharField(write_only=True)
             
+            class Meta:
+                model = User 
+                fields = ("first_name", "last_name", "email", "password1", "password2")  
+                
             def get_cleaned_data(self):
-                super.get_cleaned_data()
+                # super().get_cleaned_data()
                 return {
                     "email":self.validated_data.get("email",""),
                     "first_name":self.validated_data.get("first_name",""),
@@ -48,17 +59,13 @@ class CustomRegisterSerializer(serializers.ModelSerializer):
                 adapter= get_adapter()
                 user= adapter.new_user(request)
                 self.cleaned_data= self.get_cleaned_data()
-                user= adapter.save_user()
+                user= adapter.save_user(request, user, self)
                 user.save()
                 
-                setup_user_email(request, user, self)
+                setup_user_email(request, user, [])
                 user.email= self.cleaned_data.get("email")
                 user.password1= self.cleaned_data.get("password1")
                 user.first_name= self.cleaned_data.get("first_name")
                 user.last_name= self.cleaned_data.get("last_name")
                 
                 return user
-                
-                
-                
-                
