@@ -42,3 +42,23 @@ class CustomRegisterSerializer(serializers.ModelSerializer):
                     "last_name":self.validated_data.get("last_name",""),
                     "password1":self.validated_data.get("password1",""),
                 }
+            
+            
+            def save(self, request):
+                adapter= get_adapter()
+                user= adapter.new_user(request)
+                self.cleaned_data= self.get_cleaned_data()
+                user= adapter.save_user()
+                user.save()
+                
+                setup_user_email(request, user, self)
+                user.email= self.cleaned_data.get("email")
+                user.password1= self.cleaned_data.get("password1")
+                user.first_name= self.cleaned_data.get("first_name")
+                user.last_name= self.cleaned_data.get("last_name")
+                
+                return user
+                
+                
+                
+                
